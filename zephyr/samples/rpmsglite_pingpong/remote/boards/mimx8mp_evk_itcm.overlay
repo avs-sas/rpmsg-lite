@@ -11,8 +11,8 @@
 		zephyr,ipc_shm = &rpmsg_shmem;
 		zephyr,ipc = &mailbox0;
 
-		zephyr,console = &uart4;
-		zephyr,shell-uart = &uart4;
+		zephyr,console = &uart1;
+		zephyr,shell-uart = &uart1;
 	};
 
 	rpmsg_shmem: memory@900000 {
@@ -25,4 +25,28 @@
 
 &mailbox0 {
 	status = "okay";
+};
+
+&uart1 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&uart1_default>;
+	pinctrl-names = "default";
+};
+
+&uart4 {
+	status = "disabled";
+};
+
+&pinctrl {
+	uart1_default: uart1_default {
+		group0 {
+			pinmux = <&iomuxc_sai2_rxc_uart_rx_uart1_rx>,
+				<&iomuxc_sai2_rxfs_uart_tx_uart1_tx>;
+			bias-pull-up;
+			slew-rate = "slow";
+			drive-strength = "x1";
+		};
+	};
+
 };
