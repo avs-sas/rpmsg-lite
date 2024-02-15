@@ -1,0 +1,28 @@
+/*
+ * Copyright 2023 NXP
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/memory-attr/memory-attr-arm.h>
+
+/ {
+	chosen {
+		zephyr,ipc_shm = &rpmsg_shmem;
+		zephyr,ipc = &mailbox0;
+
+		zephyr,console = &uart4;
+		zephyr,shell-uart = &uart4;
+	};
+
+	rpmsg_shmem: memory@900000 {
+		compatible = "zephyr,memory-region", "arm,itcm";
+		reg = <0x900000 DT_SIZE_K(192)>;
+		zephyr,memory-attr = <( DT_MEM_ARM(ATTR_MPU_RAM_NOCACHE) )>;
+		zephyr,memory-region="ITCM_SHMEM";
+	};
+};
+
+&mailbox0 {
+	status = "okay";
+};
